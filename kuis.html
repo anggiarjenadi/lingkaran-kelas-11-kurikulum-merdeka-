@@ -17,6 +17,7 @@
             justify-content: center;
             align-items: flex-start;
             min-height: 100vh;
+            padding: 10px;
         }
         .navbar {
             width: 100%;
@@ -27,12 +28,13 @@
         }
         .main-content {
             display: flex;
+            flex-wrap: wrap;
             justify-content: center;
             width: 100%;
             max-width: 1200px;
         }
         .container {
-            width: 70%;
+            width: 100%;
             max-width: 700px;
             background-color: #fff;
             padding: 20px;
@@ -41,14 +43,15 @@
             margin-top: 20px;
         }
         .sidebar {
-            width: 20%;
-            margin-left: 20px;
+            width: 100%;
+            max-width: 300px;
+            margin-top: 20px;
             padding: 10px;
             background-color: #ffffff;
             border-radius: 8px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 90px;
+            position: relative;
+            top: 0;
         }
         .sidebar h4 {
             color: #0056b3;
@@ -125,6 +128,33 @@
         button:hover {
             opacity: 0.9;
         }
+
+        /* Responsive Design */
+        @media (min-width: 768px) {
+            .main-content {
+                flex-direction: row;
+                align-items: flex-start;
+            }
+            .sidebar {
+                width: 20%;
+                margin-left: 20px;
+                position: sticky;
+                top: 90px;
+            }
+            .container {
+                width: 70%;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .buttons button {
+                flex: 1;
+                margin: 0 5px;
+            }
+            .sidebar {
+                margin-left: 0;
+            }
+        }
     </style>
 </head>
 <body>
@@ -147,32 +177,11 @@
 
     <script>
         const questions = [
-            {
-                question: "Jika luas sebuah lingkaran adalah 25π cm², maka panjang busur seperempat lingkaran tersebut adalah…",
-                options: ["π cm", "2π cm", "3π cm", "7π cm", "5π cm"],
-                correct: "5π cm"
-            },
-            {
-                question: "Jika panjang busur lingkaran yang mengukur 90° adalah 8 cm, berapa keliling lingkaran tersebut?",
-                options: ["14 cm", "22 cm", "44 cm", "24 cm", "55 cm"],
-                correct: "24 cm"
-            },
-            {
-                question: "Panjang busur lingkaran yang mengukur 60° pada lingkaran dengan jari-jari 5 cm adalah…",
-                options: ["3.14 cm", "2.71 cm", "1.41 cm", "3.33 cm", "7.5 cm"],
-                correct: "7.5 cm"
-            },
-            {
-                question: "jika panjang busur lingkaran adalah 12 cm dan panjang jari-jarinya adalah 4 cm, berapa besar sudut busur dalam derajat?",
-                options: ["35°", "20°", "25°", "15°", "45°"],
-                correct: "45°"
-            },
-            {
-                question: "Jika panjang jari-jari lingkaran adalah 9 cm, berapa panjang busur yang mengukur 120° pada lingkaran tersebut?",
-                options: ["3π cm", "6π cm", "9π cm", "12π cm", "8π cm"],
-                correct: "6π cm"
-            }
-
+            { question: "Jika luas sebuah lingkaran adalah 25π cm², maka panjang busur seperempat lingkaran tersebut adalah…", options: ["π cm", "2π cm", "3π cm", "7π cm", "5π cm"], correct: "5π cm" },
+            { question: "Jika panjang busur lingkaran yang mengukur 90° adalah 8 cm, berapa keliling lingkaran tersebut?", options: ["14 cm", "22 cm", "44 cm", "24 cm", "55 cm"], correct: "24 cm" },
+            { question: "Panjang busur lingkaran yang mengukur 60° pada lingkaran dengan jari-jari 5 cm adalah…", options: ["3.14 cm", "2.71 cm", "1.41 cm", "3.33 cm", "7.5 cm"], correct: "7.5 cm" },
+            { question: "jika panjang busur lingkaran adalah 12 cm dan panjang jari-jarinya adalah 4 cm, berapa besar sudut busur dalam derajat?", options: ["35°", "20°", "25°", "15°", "45°"], correct: "45°" },
+            { question: "Jika panjang jari-jari lingkaran adalah 9 cm, berapa panjang busur yang mengukur 120° pada lingkaran tersebut?", options: ["3π cm", "6π cm", "9π cm", "12π cm", "8π cm"], correct: "6π cm" }
         ];
 
         let currentQuestion = 0;
