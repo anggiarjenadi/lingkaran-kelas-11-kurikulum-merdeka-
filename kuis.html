@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lingkaran Kelas 11</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+        .navbar {
+            width: 100%;
+            background-color: #0056b3;
+            padding: 15px;
+            color: white;
+            text-align: center;
+        }
+        .main-content {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            max-width: 1200px;
+        }
+        .container {
+            width: 70%;
+            max-width: 700px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+        .sidebar {
+            width: 20%;
+            margin-left: 20px;
+            padding: 10px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 90px;
+        }
+        .sidebar h4 {
+            color: #0056b3;
+            font-size: 18px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .question-number {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .question-number a {
+            margin: 5px;
+            padding: 10px;
+            display: inline-block;
+            width: 40px;
+            text-align: center;
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .not-answered {
+            background-color: #6c757d;
+        }
+        .answered {
+            background-color: #007bff;
+        }
+        .soal {
+            margin-bottom: 20px;
+        }
+        h3 {
+            color: #0056b3;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        label {
+            font-size: 16px;
+            cursor: pointer;
+        }
+        input[type="radio"] {
+            margin-right: 10px;
+        }
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+        button[name="previous"] {
+            background-color: #6c757d;
+            color: white;
+        }
+        button[name="next"] {
+            background-color: #007bff;
+            color: white;
+        }
+        button[name="submit"] {
+            background-color: #28a745;
+            color: white;
+        }
+        button:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-content">
+        <div class="container">
+            <div id="quiz-container"></div>
+
+            <div class="buttons">
+                <button id="prev-btn" disabled>Previous</button>
+                <button id="next-btn">Next</button>
+                <button id="submit-btn" style="display: none;">Submit</button>
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <h4>Navigasi Soal</h4>
+            <div id="navigation-container" class="question-number"></div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "Jika luas sebuah lingkaran adalah 25π cm², maka panjang busur seperempat lingkaran tersebut adalah…",
+                options: ["π cm", "2π cm", "3π cm", "7π cm", "5π cm"],
+                correct: "5π cm"
+            },
+            {
+                question: "Jika panjang busur lingkaran yang mengukur 90° adalah 8 cm, berapa keliling lingkaran tersebut?",
+                options: ["14 cm", "22 cm", "44 cm", "24 cm", "55 cm"],
+                correct: "24 cm"
+            },
+            {
+                question: "Panjang busur lingkaran yang mengukur 60° pada lingkaran dengan jari-jari 5 cm adalah…",
+                options: ["3.14 cm", "2.71 cm", "1.41 cm", "3.33 cm", "7.5 cm"],
+                correct: "7.5 cm"
+            },
+            {
+                question: "jika panjang busur lingkaran adalah 12 cm dan panjang jari-jarinya adalah 4 cm, berapa besar sudut busur dalam derajat?",
+                options: ["35°", "20°", "25°", "15°", "45°"],
+                correct: "45°"
+            },
+            {
+                question: "Jika panjang jari-jari lingkaran adalah 9 cm, berapa panjang busur yang mengukur 120° pada lingkaran tersebut?",
+                options: ["3π cm", "6π cm", "9π cm", "12π cm", "8π cm"],
+                correct: "6π cm"
+            }
+
+        ];
+
+        let currentQuestion = 0;
+        let userAnswers = Array(questions.length).fill(null);
+
+        function renderQuestion() {
+            const quizContainer = document.getElementById("quiz-container");
+            const questionData = questions[currentQuestion];
+            const selectedAnswer = userAnswers[currentQuestion];
+
+            quizContainer.innerHTML = `
+                <div class="soal">
+                    <h3>Soal ${currentQuestion + 1}</h3>
+                    <p>${questionData.question}</p>
+                    <ul>
+                        ${questionData.options
+                            .map(option => `
+                                <li>
+                                    <label>
+                                        <input type="radio" name="answer" value="${option}" ${selectedAnswer === option ? "checked" : ""}>
+                                        ${option}
+                                    </label>
+                                </li>
+                            `)
+                            .join("")}
+                    </ul>
+                </div>
+            `;
+
+            updateNavigation();
+        }
+
+        function updateNavigation() {
+            const navigationContainer = document.getElementById("navigation-container");
+            navigationContainer.innerHTML = questions
+                .map((_, index) => `
+                    <a href="#" 
+                       class="${userAnswers[index] ? 'answered' : 'not-answered'}" 
+                       onclick="navigateTo(${index})">
+                        ${index + 1}
+                    </a>
+                `)
+                .join("");
+
+            document.getElementById("prev-btn").disabled = currentQuestion === 0;
+            document.getElementById("next-btn").style.display = currentQuestion === questions.length - 1 ? "none" : "inline-block";
+            document.getElementById("submit-btn").style.display = currentQuestion === questions.length - 1 ? "inline-block" : "none";
+        }
+
+        function navigateTo(index) {
+            saveAnswer();
+            currentQuestion = index;
+            renderQuestion();
+        }
+
+        function saveAnswer() {
+            const selectedOption = document.querySelector('input[name="answer"]:checked');
+            if (selectedOption) {
+                userAnswers[currentQuestion] = selectedOption.value;
+            }
+        }
+
+        function calculateResults() {
+            const correctAnswers = questions.filter((q, i) => q.correct === userAnswers[i]).length;
+            alert(`Hasil Anda:\nBenar: ${correctAnswers} dari ${questions.length}\nNilai: ${(correctAnswers / questions.length) * 100}%`);
+        }
+
+        document.getElementById("prev-btn").addEventListener("click", () => {
+            saveAnswer();
+            currentQuestion--;
+            renderQuestion();
+        });
+
+        document.getElementById("next-btn").addEventListener("click", () => {
+            saveAnswer();
+            currentQuestion++;
+            renderQuestion();
+        });
+
+        document.getElementById("submit-btn").addEventListener("click", () => {
+            saveAnswer();
+            calculateResults();
+        });
+
+        renderQuestion();
+    </script>
+     <div style="text-align: center; margin-top: 20px;">
+        <a href="home.html" style="text-decoration: none;">
+            <button type="button" style="background-color: #0056b3; color: white; padding: 10px 20px; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; transition: 0.3s ease;">
+                Kembali ke Home
+            </button>
+        </a>
+    </div>
+</body>
+</html>
